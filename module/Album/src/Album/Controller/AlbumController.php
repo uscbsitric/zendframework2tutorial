@@ -9,17 +9,19 @@
 
 	    public function getAlbumTable()
 	    {
-	         if (!$this->albumTable) {
+	         if (!$this->albumTable)
+	         {
 	             $sm = $this->getServiceLocator();
 	             $this->albumTable = $sm->get('Album\Model\AlbumTable');
+	             $this->albumTable->setServiceLocator($sm);
 	         }
+
 	         return $this->albumTable;
 	    }
 
 		public function indexAction()
 		{
-			return new ViewModel(array('albums' => $this->getAlbumTable()->fetchAll())
-								);
+			return new ViewModel( array('albums' => $this->getAlbumTable()->fetchAll()) );
 		}
 		
 		public function addAction()

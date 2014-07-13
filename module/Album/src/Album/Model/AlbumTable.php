@@ -7,35 +7,30 @@ namespace Album\Model;
  use Zend\Db\ResultSet\ResultSet;
  use Zend\Db\TableGateway\TableGateway;
  
+ // as per http://stackoverflow.com/questions/18961988/how-to-get-an-instance-of-servicemanager-into-a-model-in-zf2?rq=1#
+ use Zend\ServiceManager\ServiceLocatorAwareInterface;
+ use Zend\ServiceManager\ServiceLocatorInterface;
 
- class AlbumTable
+ class AlbumTable implements ServiceLocatorAwareInterface
  {
      protected $tableGateway;
+     protected $serviceLocator;
 
      public function __construct(TableGateway $tableGateway)
      {
          $this->tableGateway = $tableGateway;
      }
-     // Add this method:
-     public function getServiceConfig()
+
+     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
      {
-     	return array('factories' => array('Album\Model\AlbumTable' =>  function($sm)
-										     					  	   {
-											     						$tableGateway = $sm->get('AlbumTableGateway');
-											     						$table = new AlbumTable($tableGateway);
-											     						return $table;
-											     					   },
-     									 'AlbumTableGateway' 	   => function($sm)
-								     								  {
-											     						$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-											     						$resultSetPrototype = new ResultSet();
-											     						$resultSetPrototype->setArrayObjectPrototype(new Album());
-											     						return new TableGateway('album', $dbAdapter, null, $resultSetPrototype);
-								     								  },
-     									),
-     			   );
+     	$this->serviceLocator = $serviceLocator;
      }
       
+     public function getServiceLocator()
+     {
+     	return $this->serviceLocator;
+     }
+     
      public function fetchAll()
      {
          $resultSet = $this->tableGateway->select();
