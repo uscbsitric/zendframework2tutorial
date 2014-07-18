@@ -1,1 +1,36 @@
 <?php
+	$title = 'Add new Album';
+	$this->headtitle($title);
+?>
+
+<h1> <?php echo $this->escapeHTML($title); ?> </h1>
+
+<?php
+	$form->setAttribute('action', $this->url('album', array('action' => 'add')
+											)
+					   );
+	$form->prepare();
+	
+
+	echo $this->form()->openTag($form);
+
+	echo $this->formHidden($form->get('id'));
+	echo "<div class='form-group'>";
+		echo $this->formRow($form->get('title')->setAttribute('class', 'form-control'));
+	echo "</div>";
+	echo "<div class='form-group'>";
+		echo $this->formRow($form->get('artist')->setAttribute('class', 'form-control'));
+	echo "</div>";
+	echo "<div class='btn-group'>";
+		echo $this->formSubmit($form->get('submit'));
+	echo "</div>";
+
+	echo $this->form()->closeTag();
+
+	
+	/*****
+	echo $this->form()->openTag($form);
+	echo $this->formCollection($form);
+	echo $this->form()->closeTag();
+	*****/
+?>
