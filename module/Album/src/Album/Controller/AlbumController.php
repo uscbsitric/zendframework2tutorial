@@ -118,7 +118,7 @@
 			}
 			
 			return array('id' => $id,
-						 'album' => $this->getAlbumTable()->getAlbum($id);
+						 'album' => $this->getAlbumTable()->getAlbum($id)
 						);
 		}
 	}
