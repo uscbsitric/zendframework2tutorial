@@ -96,27 +96,27 @@
 		public function deleteAction()
 		{
 			$id = (int)$this->params()->fromRoute('id', 0);
-			
+
 			if(!$id)
 			{
 				return $this->redirect()->toRoute('album');
 			}
-			
+
 			$request = $this->getRequest();
-			
+
 			if($request->isPost())
 			{
 				$del = $request->getPost('del', 'No');
-				
+
 				if('Yes' == $del)
 				{
 					$id = (int)$request->getPost('id');
 					$this->getAlbumTable()->deleteAlbum($id);
 				}
-				
+
 				return $this->redirect()->toRoute('album');
 			}
-			
+
 			return array('id' => $id,
 						 'album' => $this->getAlbumTable()->getAlbum($id)
 						);
